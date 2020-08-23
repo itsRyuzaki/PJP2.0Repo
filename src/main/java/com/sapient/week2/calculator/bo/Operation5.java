@@ -25,6 +25,7 @@ public class Operation5 implements CalculatorUtil {
 		if (currentSessionHistory.size() == 0) {
 
 			outputList.add("No operations performed in the current session");
+			System.out.println("No operations performed in the current session!!");
 
 		} else {
 
