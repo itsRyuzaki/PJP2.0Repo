@@ -19,7 +19,7 @@ public class Operation4 implements CalculatorUtil {
 	ArrayList<String> outputList = new ArrayList<>();
 	LinkedHashMap<ArrayList<String>, ArrayList<String>> ioMap = new LinkedHashMap<>();
 
-	public static void initializePhraseMap() {
+	static {
 		phrasesMap.put("today", 0);
 		phrasesMap.put("tomorrow", 1);
 		phrasesMap.put("day-after-tomorrow", 2);
@@ -43,8 +43,6 @@ public class Operation4 implements CalculatorUtil {
 
 	@Override
 	public OperationHistoryPOJO solve() {
-
-		initializePhraseMap();
 
 		String operationHeading = ManageOperations.operationsList[3];
 
