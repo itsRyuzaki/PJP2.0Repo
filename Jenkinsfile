@@ -10,7 +10,7 @@ pipeline{
         stage('Build'){
             steps{
                 echo "Building the project";
-		sh 'mvn -B -DskipTests clean package'
+		bat 'Batch_Files/checkVersion.bat'
             }
         }
          stage('Unit-Tests'){
