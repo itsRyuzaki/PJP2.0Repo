@@ -1,3 +1,3 @@
 # PJP2.0Repo
 ## Week2 - Assignment 3
-Average Income Report based on country/city.
+Program for generating average Income Report based on country/city.
