@@ -10,7 +10,9 @@ pipeline{
         stage('Build'){
             steps{
                 echo "Building the project";
-		bat 'Batch_Files/checkVersion.bat'
+	        dir('Batch_Files') {
+			bat 'Batch_Files/checkVersion.bat'
+		}		
             }
         }
          stage('Unit-Tests'){
