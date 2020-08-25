@@ -1,2 +1,2 @@
-call mvn test
 cd ..
+call mvn test

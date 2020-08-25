@@ -1,2 +1,2 @@
-call mvn -B -DskipTests clean package
 cd ..
+call mvn -B -DskipTests clean package

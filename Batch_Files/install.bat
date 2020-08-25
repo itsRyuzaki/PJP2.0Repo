@@ -1,2 +1,2 @@
-call mvn install
 cd ..
+call mvn install
