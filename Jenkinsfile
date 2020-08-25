@@ -11,7 +11,7 @@ pipeline{
             steps{
                 echo "Building the project";
 	        dir('Batch_Files') {
-			bat 'Batch_Files/checkVersion.bat'
+			bat 'checkVersion.bat'
 		}		
             }
         }
