@@ -4,7 +4,7 @@ pipeline{
         stage('Git-Checkout'){
             steps{
                 echo "Checking out from git repo";
-                git "https://github.com/itsRyuzaki/PJP2.0Repo.git"
+                git branch: 'Week2-Assignment1', url:"https://github.com/itsRyuzaki/PJP2.0Repo.git"
             }
         }
         stage('Build'){
