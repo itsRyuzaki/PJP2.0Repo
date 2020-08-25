@@ -11,20 +11,24 @@ pipeline{
             steps{
                 echo "Building the project";
 	        dir('Batch_Files') {
-			bat 'checkVersion.bat'
+			bat 'build.bat'
 		}		
             }
         }
          stage('Unit-Tests'){
             steps{
                 echo "Running Junit-Tests";
-		sh 'mvn test'
+		dir('Batch_Files') {
+			bat 'tests.bat'
+		}
             }
         }
          stage('Install'){
             steps{
                 echo "Installing the maven project";
-		sh 'mvn install'
+		dir('Batch_Files') {
+			bat 'install.bat'
+		}
             }
         }
     }
