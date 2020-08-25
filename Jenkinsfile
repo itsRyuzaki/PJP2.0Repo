@@ -10,11 +10,19 @@ pipeline{
         stage('Build'){
             steps{
                 echo "Building the project";
+		sh 'mvn -B -DskipTests clean package'
             }
         }
          stage('Unit-Tests'){
             steps{
-                echo "Building the project";
+                echo "Running Junit-Tests";
+		sh 'mvn test'
+            }
+        }
+         stage('Install'){
+            steps{
+                echo "Installing the maven project";
+		sh 'mvn install'
             }
         }
     }
