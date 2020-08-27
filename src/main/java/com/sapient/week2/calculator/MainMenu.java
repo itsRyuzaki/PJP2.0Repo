@@ -13,7 +13,8 @@ public class MainMenu {
 		ManageOperations.showOperations();
 
 		System.out.print("\nEnter your choice: ");
-		int choice = Read.in.nextInt();
+		String schoice = Read.in.next();
+		int choice = Integer.parseInt(schoice);
 		System.out.println();
 
 		return isValidChoice(choice, sessionHistory);
@@ -23,15 +24,15 @@ public class MainMenu {
 	public static boolean isValidChoice(int choice, SessionHistoryPOJO sessionHistory) {
 
 		if (choice == -1) {
-
 			ManageSessions.writeSessionHistory(sessionHistory);
 			return false;
 
-		} else if (choice < 1 || choice > 7) {
+		} else if (choice < 1 || choice > ManageOperations.operationsList.size()) {
 
 			System.out.println("Invalid choice!! Try Again.");
 			System.out.print("\nEnter your choice again: ");
-			int choiceAgain = Read.in.nextInt();
+			String schoiceAgain = Read.in.next();
+			int choiceAgain = Integer.parseInt(schoiceAgain);
 			System.out.println();
 			return isValidChoice(choiceAgain, sessionHistory);
 

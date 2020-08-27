@@ -1,28 +1,21 @@
 package com.sapient.week2.calculator.bo;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 
 import com.sapient.week2.calculator.ManageOperations;
 import com.sapient.week2.calculator.dao.OperationHistoryPOJO;
-import com.sapient.week2.misc.Display;
 import com.sapient.week2.misc.Read;
 
-public class Operation2 implements CalculatorUtil {
-
-	public ArrayList<String> inputList = new ArrayList<>();
-	public ArrayList<String> outputList = new ArrayList<>();
-	LinkedHashMap<ArrayList<String>, ArrayList<String>> ioMap = new LinkedHashMap<>();
+public class ArithmeticOperations extends CalculatorUtil {
 
 	@Override
-	public OperationHistoryPOJO solve() {
+	public OperationHistoryPOJO solve(int operationNum) {
 
-		String operationHeading = ManageOperations.operationsList[1];
-
-		Display.heading(operationHeading);
+		this.setAndDisplayHeading(operationNum);
 
 		System.out.println("Note: the allowed date format is: dd/MM/yyyy");
 
@@ -43,16 +36,17 @@ public class Operation2 implements CalculatorUtil {
 
 		outputList.add("Valid choice entered: " + choice.toUpperCase());
 
-		ioMap.put(inputList, outputList);
-		inputList = new ArrayList<>();
-		outputList = new ArrayList<>();
+		this.addIOListAndClear();
 
 		System.out.print("\nEnter no. of days to " + choice.toLowerCase() + ": ");
-		int numOfDays = Read.in.nextInt();
+		String snumOfDays = Read.in.next();
+		int numOfDays = checkInteger(snumOfDays, 5);
 		System.out.print("Enter no. of weeks to " + choice.toLowerCase() + ": ");
-		int numOfWeeks = Read.in.nextInt();
+		String snumOfWeeks = Read.in.next();
+		int numOfWeeks = checkInteger(snumOfWeeks, 5);
 		System.out.print("Enter no. of months to " + choice.toLowerCase() + ": ");
-		int numOfMonths = Read.in.nextInt();
+		String snumOfMonths = Read.in.next();
+		int numOfMonths = checkInteger(snumOfMonths, 5);
 
 		inputList.add("Days to " + choice.toLowerCase() + ": " + String.valueOf(numOfDays));
 		inputList.add("Weeks to " + choice.toLowerCase() + ": " + String.valueOf(numOfWeeks));
@@ -71,7 +65,7 @@ public class Operation2 implements CalculatorUtil {
 		System.out.println(resultString);
 		outputList.add(resultString);
 
-		ioMap.put(inputList, outputList);
+		this.addIOListAndClear();
 
 		return ManageOperations.saveCurrentOperationHistory(operationHeading, ioMap);
 	}
@@ -84,9 +78,7 @@ public class Operation2 implements CalculatorUtil {
 			System.out.println("Invalid choice type!!");
 			outputList.add("User entered invalid choice type");
 
-			ioMap.put(inputList, outputList);
-			inputList = new ArrayList<>();
-			outputList = new ArrayList<>();
+			this.addIOListAndClear();
 
 			if (maxCount == 5) {
 				choice = "add";
@@ -113,6 +105,19 @@ public class Operation2 implements CalculatorUtil {
 		LocalDate finalResult = addWeeks.plus(sign * numOfMonths, ChronoUnit.MONTHS);
 
 		return finalResult;
+	}
+
+	@Override
+	public void dummyOperationInput(BufferedWriter bw) throws IOException {
+
+		String[] arithmeticOpType = { "Add", "Subtract" };
+
+		bw.write(generateRandomDate() + "\n");
+		bw.write(arithmeticOpType[numberGenerator.nextInt(2)] + "\n");
+		bw.write(String.valueOf(numberGenerator.nextInt(30)) + "\n");
+		bw.write(String.valueOf(numberGenerator.nextInt(30)) + "\n");
+		bw.write(String.valueOf(numberGenerator.nextInt(30)) + "\n");
+
 	}
 
 }

@@ -1,23 +1,19 @@
 package com.sapient.week2.calculator.bo;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 import com.sapient.week2.calculator.ManageOperations;
 import com.sapient.week2.calculator.dao.OperationHistoryPOJO;
-import com.sapient.week2.misc.Display;
 import com.sapient.week2.misc.Read;
 
-public class Operation4 implements CalculatorUtil {
+public class DateFromPhrase extends CalculatorUtil {
 
 	public static HashMap<String, Integer> phrasesMap = new HashMap<>();
-
-	ArrayList<String> inputList = new ArrayList<>();
-	ArrayList<String> outputList = new ArrayList<>();
-	LinkedHashMap<ArrayList<String>, ArrayList<String>> ioMap = new LinkedHashMap<>();
 
 	static {
 		phrasesMap.put("today", 0);
@@ -42,11 +38,9 @@ public class Operation4 implements CalculatorUtil {
 	}
 
 	@Override
-	public OperationHistoryPOJO solve() {
+	public OperationHistoryPOJO solve(int operationNum) {
 
-		String operationHeading = ManageOperations.operationsList[3];
-
-		Display.heading(operationHeading);
+		this.setAndDisplayHeading(operationNum);
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -59,10 +53,7 @@ public class Operation4 implements CalculatorUtil {
 
 		outputList.add("User entered valid choice: " + choice);
 
-		ioMap.put(inputList, outputList);
-
-		inputList = new ArrayList<>();
-		outputList = new ArrayList<>();
+		this.addIOListAndClear();
 
 		showPhrases(choice);
 
@@ -75,14 +66,11 @@ public class Operation4 implements CalculatorUtil {
 
 		outputList.add("Valid phrase entered: " + phrase);
 
-		ioMap.put(inputList, outputList);
-
-		inputList = new ArrayList<>();
-		outputList = new ArrayList<>();
+		this.addIOListAndClear();
 
 		inputList.add(operationHeading);
 
-		Operation2 op2 = new Operation2();
+		ArithmeticOperations op2 = new ArithmeticOperations();
 		LocalDate finalDate = op2.getFinalDate(LocalDate.now(), 1, phrasesMap.get(phrase.toLowerCase()), 0, 0);
 
 		System.out.println("Date from the phrase is: " + finalDate.format(formatter));
@@ -101,9 +89,7 @@ public class Operation4 implements CalculatorUtil {
 			outputList.add("User entered invalid phrase");
 			outputList.add("User was given an option to select available phrases");
 
-			ioMap.put(inputList, outputList);
-			inputList = new ArrayList<>();
-			outputList = new ArrayList<>();
+			this.addIOListAndClear();
 
 			System.out.println("Show list of available phrases(Y|N): ");
 			String choice = Read.in.next();
@@ -116,9 +102,7 @@ public class Operation4 implements CalculatorUtil {
 
 			showPhrases(choice);
 
-			ioMap.put(inputList, outputList);
-			inputList = new ArrayList<>();
-			outputList = new ArrayList<>();
+			this.addIOListAndClear();
 
 			System.out.print("Enter phrase again: ");
 			phrase = Read.in.next();
@@ -137,9 +121,7 @@ public class Operation4 implements CalculatorUtil {
 			outputList.add("User entered invalid choice");
 			outputList.add("User was asked to enter valid choice");
 
-			ioMap.put(inputList, outputList);
-			inputList = new ArrayList<>();
-			outputList = new ArrayList<>();
+			this.addIOListAndClear();
 
 			System.out.print("Enter your choice again: ");
 			choice = Read.in.next();
@@ -159,6 +141,16 @@ public class Operation4 implements CalculatorUtil {
 
 		}
 
+	}
+
+	@Override
+	public void dummyOperationInput(BufferedWriter bw) throws IOException {
+
+		String[] choiceList = { "Y", "N" };
+		ArrayList<String> phraseList = new ArrayList<>(phrasesMap.keySet());
+
+		bw.write(choiceList[numberGenerator.nextInt(2)] + "\n");
+		bw.write(phraseList.get(numberGenerator.nextInt(phraseList.size())) + "\n");
 	}
 
 }

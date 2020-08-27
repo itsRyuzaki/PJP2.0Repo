@@ -1,19 +1,14 @@
 package com.sapient.week2.calculator.bo;
 
-import java.util.ArrayList;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 import com.sapient.week2.calculator.ManageOperations;
 import com.sapient.week2.calculator.dao.OperationHistoryPOJO;
-import com.sapient.week2.misc.Display;
 import com.sapient.week2.misc.Read;
 
-public class Operation6 implements CalculatorUtil {
-
-	ArrayList<String> inputList = new ArrayList<>();
-	ArrayList<String> outputList = new ArrayList<>();
-	LinkedHashMap<ArrayList<String>, ArrayList<String>> ioMap = new LinkedHashMap<>();
+public class LanguageSelection extends CalculatorUtil {
 
 	static HashMap<String, String> languageMap = new HashMap<>();
 
@@ -24,10 +19,9 @@ public class Operation6 implements CalculatorUtil {
 	}
 
 	@Override
-	public OperationHistoryPOJO solve() {
+	public OperationHistoryPOJO solve(int operationNum) {
 
-		String operationHeading = ManageOperations.operationsList[5];
-		Display.heading(operationHeading);
+		this.setAndDisplayHeading(operationNum);
 
 		System.out.println("List of available languages: ");
 		languageMap.forEach((key, value) -> System.out.println(value));
@@ -35,10 +29,7 @@ public class Operation6 implements CalculatorUtil {
 		inputList.add(operationHeading);
 
 		outputList.add("User was shown available languages.");
-		ioMap.put(inputList, outputList);
-
-		inputList = new ArrayList<>();
-		outputList = new ArrayList<>();
+		this.addIOListAndClear();
 
 		System.out.print("Enter the first 2 letters of the language to proceed: ");
 		String choice = Read.in.next();
@@ -66,22 +57,20 @@ public class Operation6 implements CalculatorUtil {
 		while (!languageMap.containsKey(choice.toLowerCase())) {
 
 			if (maxTries == 0) {
+
 				System.out.println("Invalid Choice!!");
 				System.out.println("Maximum Tries reached...taking default language(french)");
 				outputList.add("User entered invalid choice");
 				outputList.add("Application took default language(french)");
 
-				ioMap.put(inputList, outputList);
-				inputList = new ArrayList<>();
-				outputList = new ArrayList<>();
+				this.addIOListAndClear();
 				choice = "fr";
+
 			} else {
 				System.out.println("Invalid choice..Try Again");
 				outputList.add("User entered invalid choice");
 				outputList.add("User was again asked to enter the language!");
-				ioMap.put(inputList, outputList);
-				inputList = new ArrayList<>();
-				outputList = new ArrayList<>();
+				this.addIOListAndClear();
 				System.out.print("Enter the first 2 letters of the language to proceed: ");
 				choice = Read.in.next();
 				inputList.add("Language entered: " + choice);
@@ -91,6 +80,13 @@ public class Operation6 implements CalculatorUtil {
 
 		}
 
+	}
+
+	@Override
+	public void dummyOperationInput(BufferedWriter bw) throws IOException {
+
+		String[] languages = { "fr", "sp", "hi" };
+		bw.write(languages[numberGenerator.nextInt(3)] + "\n");
 	}
 
 }

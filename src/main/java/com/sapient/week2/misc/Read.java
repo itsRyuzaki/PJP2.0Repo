@@ -1,9 +1,11 @@
 package com.sapient.week2.misc;
 
-import java.util.Scanner;
-
 public class Read {
 
-	public static Scanner in = new Scanner(System.in);
+	public static CustomScanner in = new CustomScanner(false, "");
+
+	public static void setIN(boolean typeFlag, String filePath) {
+		in = new CustomScanner(typeFlag, filePath);
+	}
 
 }

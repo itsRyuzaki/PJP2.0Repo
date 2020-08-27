@@ -4,21 +4,23 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
+import com.sapient.week2.calculator.bo.ArithmeticOperations;
+import com.sapient.week2.calculator.bo.AutomationOfData;
+import com.sapient.week2.calculator.bo.BulkProcessing;
 import com.sapient.week2.calculator.bo.CalculatorUtil;
-import com.sapient.week2.calculator.bo.Operation1;
-import com.sapient.week2.calculator.bo.Operation2;
-import com.sapient.week2.calculator.bo.Operation3;
-import com.sapient.week2.calculator.bo.Operation4;
-import com.sapient.week2.calculator.bo.Operation5;
-import com.sapient.week2.calculator.bo.Operation6;
-import com.sapient.week2.calculator.bo.Operation7;
+import com.sapient.week2.calculator.bo.CurrentSessionHistory;
+import com.sapient.week2.calculator.bo.DateFromPhrase;
+import com.sapient.week2.calculator.bo.DayOrWeekNumber;
+import com.sapient.week2.calculator.bo.DifferenceInDates;
+import com.sapient.week2.calculator.bo.LanguageSelection;
+import com.sapient.week2.calculator.bo.LastSessionsHistory;
 import com.sapient.week2.calculator.dao.OperationHistoryPOJO;
 import com.sapient.week2.calculator.dao.SessionHistoryPOJO;
 import com.sapient.week2.misc.Read;
 
 public class ManageOperations {
 
-	public static String operationsList[] = new String[8];
+	public static ArrayList<String> operationsList = new ArrayList<>();
 	public static ArrayList<OperationHistoryPOJO> curresntSessionHistory = new ArrayList<>();
 
 	static {
@@ -26,14 +28,15 @@ public class ManageOperations {
 		 * List of possible Calculator Operations.
 		 */
 
-		operationsList[0] = "Difference between dates";
-		operationsList[1] = "Arithmetic Operations on a given date";
-		operationsList[2] = "Day/Week Number for a given date";
-		operationsList[3] = "Date from the given phrase";
-		operationsList[4] = "History for all the operations in the current session";
-		operationsList[5] = "Select language";
-		operationsList[6] = "History for the last 100 sessions";
-		operationsList[7] = "Bulk processing and operations(max 100,000 operations)";
+		operationsList.add("Difference between dates");
+		operationsList.add("Arithmetic Operations on a given date");
+		operationsList.add("Day/Week Number for a given date");
+		operationsList.add("Date from the given phrase");
+		operationsList.add("History for all the operations in the current session");
+		operationsList.add("Select language");
+		operationsList.add("History for the last 100 sessions");
+		operationsList.add("Bulk processing of operations(max 100,000 operations)");
+		operationsList.add("Automation of data-creation(max 100,000 operations)");
 	}
 
 	public static void showOperations() {
@@ -41,25 +44,35 @@ public class ManageOperations {
 		System.out.println("\nBelow list shows the possible operations in the calculator");
 		System.out.println("Enter a digit to start(-1 to terminate)\n");
 
-		for (int i = 1; i <= operationsList.length; i++) {
-			System.out.println("" + i + ". " + operationsList[i - 1]);
+		for (int i = 1; i <= operationsList.size(); i++) {
+			System.out.println("" + i + ". " + operationsList.get(i - 1));
 		}
 
 	}
 
-	public static boolean process(int choice, SessionHistoryPOJO sessionHistory) {
-		CalculatorUtil operation1 = new Operation1();
-		CalculatorUtil operation2 = new Operation2();
-		CalculatorUtil operation3 = new Operation3();
-		CalculatorUtil operation4 = new Operation4();
-		CalculatorUtil operation5 = new Operation5();
-		CalculatorUtil operation6 = new Operation6();
-		CalculatorUtil operation7 = new Operation7();
+	public static CalculatorUtil[] getUtilityList() {
+		CalculatorUtil operation1 = new DifferenceInDates();
+		CalculatorUtil operation2 = new ArithmeticOperations();
+		CalculatorUtil operation3 = new DayOrWeekNumber();
+		CalculatorUtil operation4 = new DateFromPhrase();
+		CalculatorUtil operation5 = new CurrentSessionHistory();
+		CalculatorUtil operation6 = new LanguageSelection();
+		CalculatorUtil operation7 = new LastSessionsHistory();
+		CalculatorUtil operation8 = new BulkProcessing();
+		CalculatorUtil operation9 = new AutomationOfData();
 
 		CalculatorUtil[] utilityList = { operation1, operation2, operation3, operation4, operation5, operation6,
-				operation7 };
+				operation7, operation8, operation9 };
 
-		OperationHistoryPOJO operationHistory = utilityList[choice - 1].solve();
+		return utilityList;
+
+	}
+
+	public static boolean process(int choice, SessionHistoryPOJO sessionHistory) {
+
+		CalculatorUtil[] utilityList = getUtilityList();
+
+		OperationHistoryPOJO operationHistory = utilityList[choice - 1].solve(choice - 1);
 		curresntSessionHistory.add(operationHistory);
 		return endCurrentOperation(operationHistory, sessionHistory);
 
@@ -89,9 +102,7 @@ public class ManageOperations {
 			ManageSessions.writeSessionHistory(sessionHistory);
 			return false;
 
-		} else if (choice.equals("m")) {
-
-		} else {
+		} else if (!choice.equals("m")) {
 			System.out.println("Invalid choice...Going Back to main menu");
 		}
 

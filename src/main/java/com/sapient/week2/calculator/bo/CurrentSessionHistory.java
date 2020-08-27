@@ -1,23 +1,20 @@
 package com.sapient.week2.calculator.bo;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 
 import com.sapient.week2.calculator.ManageOperations;
 import com.sapient.week2.calculator.ManageSessions;
 import com.sapient.week2.calculator.dao.OperationHistoryPOJO;
-import com.sapient.week2.misc.Display;
 
-public class Operation5 implements CalculatorUtil {
-	ArrayList<String> inputList = new ArrayList<>();
-	ArrayList<String> outputList = new ArrayList<>();
-	LinkedHashMap<ArrayList<String>, ArrayList<String>> ioMap = new LinkedHashMap<>();
+public class CurrentSessionHistory extends CalculatorUtil {
 
 	@Override
-	public OperationHistoryPOJO solve() {
+	public OperationHistoryPOJO solve(int operationNum) {
 
-		String operationHeading = ManageOperations.operationsList[4];
-		Display.heading(operationHeading);
+		this.setAndDisplayHeading(operationNum);
+
 		inputList.add(operationHeading);
 
 		ArrayList<OperationHistoryPOJO> currentSessionHistory = ManageOperations.curresntSessionHistory;
@@ -36,6 +33,12 @@ public class Operation5 implements CalculatorUtil {
 
 		ioMap.put(inputList, outputList);
 		return ManageOperations.saveCurrentOperationHistory(operationHeading, ioMap);
+	}
+
+	@Override
+	public void dummyOperationInput(BufferedWriter bw) throws IOException {
+		// TODO Auto-generated method stub
+
 	}
 
 }

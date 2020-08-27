@@ -1,26 +1,22 @@
 package com.sapient.week2.calculator.bo;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
 import com.sapient.week2.calculator.ManageOperations;
 import com.sapient.week2.calculator.ManageSessions;
 import com.sapient.week2.calculator.dao.OperationHistoryPOJO;
 import com.sapient.week2.calculator.dao.SessionHistoryPOJO;
-import com.sapient.week2.misc.Display;
 
-public class Operation7 implements CalculatorUtil {
-
-	ArrayList<String> inputList = new ArrayList<>();
-	ArrayList<String> outputList = new ArrayList<>();
-	LinkedHashMap<ArrayList<String>, ArrayList<String>> ioMap = new LinkedHashMap<>();
+public class LastSessionsHistory extends CalculatorUtil {
 
 	@Override
-	public OperationHistoryPOJO solve() {
+	public OperationHistoryPOJO solve(int operationNum) {
 
-		String operationHeading = ManageOperations.operationsList[6];
-		Display.heading(operationHeading);
+		this.setAndDisplayHeading(operationNum);
+
 		LinkedList<SessionHistoryPOJO> sessionHistoryList = ManageSessions.readSessionHistory();
 
 		inputList.add("User requested for history of last 100 sessions ");
@@ -56,6 +52,12 @@ public class Operation7 implements CalculatorUtil {
 
 		System.out.println("Session ending Time: " + sessionHistoryElement.getEndingTimeStamp());
 		System.out.println("           ---------xxxxxx--------\n");
+	}
+
+	@Override
+	public void dummyOperationInput(BufferedWriter bw) throws IOException {
+		// TODO Auto-generated method stub
+
 	}
 
 }

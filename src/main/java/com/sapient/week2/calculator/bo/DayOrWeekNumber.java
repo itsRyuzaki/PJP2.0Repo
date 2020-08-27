@@ -1,31 +1,24 @@
 package com.sapient.week2.calculator.bo;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.time.temporal.ChronoField;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.Locale;
 
 import com.sapient.week2.calculator.ManageOperations;
 import com.sapient.week2.calculator.dao.OperationHistoryPOJO;
-import com.sapient.week2.misc.Display;
 import com.sapient.week2.misc.Read;
 
-public class Operation3 implements CalculatorUtil {
-
-	ArrayList<String> inputList = new ArrayList<>();
-	ArrayList<String> outputList = new ArrayList<>();
-	LinkedHashMap<ArrayList<String>, ArrayList<String>> ioMap = new LinkedHashMap<>();
+public class DayOrWeekNumber extends CalculatorUtil {
 
 	@Override
-	public OperationHistoryPOJO solve() {
+	public OperationHistoryPOJO solve(int operationNum) {
 
-		String operationHeading = ManageOperations.operationsList[2];
-
-		Display.heading(operationHeading);
+		this.setAndDisplayHeading(operationNum);
 
 		System.out.println("Note: the allowed date format is: dd/MM/yyyy");
 
@@ -51,5 +44,11 @@ public class Operation3 implements CalculatorUtil {
 
 		return ManageOperations.saveCurrentOperationHistory(operationHeading, ioMap);
 
+	}
+
+	@Override
+	public void dummyOperationInput(BufferedWriter bw) throws IOException {
+
+		bw.write(generateRandomDate() + "\n");
 	}
 }
