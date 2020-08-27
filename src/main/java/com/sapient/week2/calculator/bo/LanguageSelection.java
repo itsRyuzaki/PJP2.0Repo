@@ -36,7 +36,7 @@ public class LanguageSelection extends CalculatorUtil {
 
 		inputList.add("Language entered: " + choice);
 
-		checkValidLanguage(choice);
+		choice = checkValidLanguage(choice);
 
 		outputList.add("User entered valid language: " + languageMap.get(choice));
 
@@ -50,7 +50,7 @@ public class LanguageSelection extends CalculatorUtil {
 		return ManageOperations.saveCurrentOperationHistory(operationHeading, ioMap);
 	}
 
-	public void checkValidLanguage(String choice) {
+	public String checkValidLanguage(String choice) {
 
 		int maxTries = 5;
 
@@ -79,6 +79,8 @@ public class LanguageSelection extends CalculatorUtil {
 			maxTries--;
 
 		}
+
+		return choice;
 
 	}
 
